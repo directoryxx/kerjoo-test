@@ -13,5 +13,19 @@ class PermitRepository
     {
         $this->permit = $permit;
     }
-    
+
+    public function getAll()
+    {
+        return $this->permit->get();
+    }
+
+    public function getById($id)
+    {
+        return $this->permit->find($id);
+    }
+
+    public function create($data)
+    {
+        return $this->permit->create($data);
+    }
 }
