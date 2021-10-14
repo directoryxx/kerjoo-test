@@ -29,15 +29,6 @@ class PermitController extends Controller
         return PermitResource::collection($permit);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -64,37 +55,4 @@ class PermitController extends Controller
         return new PermitResource($permit);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Permit  $permit
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Permit $permit)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Permit  $permit
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Permit $permit)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Permit  $permit
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Permit $permit)
-    {
-        //
-    }
 }
