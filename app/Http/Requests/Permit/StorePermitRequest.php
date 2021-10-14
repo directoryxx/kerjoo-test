@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Permit;
 
+use App\Rules\CheckUserRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePermitRequest extends FormRequest
@@ -24,7 +25,7 @@ class StorePermitRequest extends FormRequest
     public function rules()
     {
         return [
-            "user_id" => 'required',
+            "user_id" => ['required',new CheckUserRule()],
             'submission_date' => 'required|date',
             'reason' => 'required|max:255'
         ];
