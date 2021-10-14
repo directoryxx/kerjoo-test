@@ -16,7 +16,7 @@ class PermitRepository
 
     public function getAll($request)
     {
-        if (!empty($request) || $request["limit"] != "" || $request["limit"] != 0) {
+        if ( (!empty($request) || !isset($request)) && (!empty($request["limit"]) && !empty($request["page"]))) {
             return $this->permit->paginate($request["limit"]);
         }
 
