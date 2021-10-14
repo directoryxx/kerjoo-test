@@ -26,6 +26,8 @@ class PermitController extends Controller
     {
         $permit = $this->permitService->getPermits($request->only(['page', 'limit']));
 
+        $permit->load('user');
+
         return PermitResource::collection($permit);
     }
 
@@ -50,7 +52,9 @@ class PermitController extends Controller
      */
     public function show(Permit $permit)
     {
-        $permit = $this->permitService->getPermit($permit);
+        $permit = $this->permitService->getPermit($permit->id);
+
+        $permit->load('user');
 
         return new PermitResource($permit);
     }

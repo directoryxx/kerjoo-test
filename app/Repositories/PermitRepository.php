@@ -25,7 +25,7 @@ class PermitRepository
 
     public function getById($id)
     {
-        return $this->permit->find($id);
+        return $this->permit->where('id', $id)->first();
     }
 
     public function create($data)

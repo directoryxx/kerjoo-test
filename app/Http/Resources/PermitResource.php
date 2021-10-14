@@ -14,6 +14,10 @@ class PermitResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            "submission_date" => $this->submission_date,
+            "reason" => $this->reason,
+            "user" => $this->whenLoaded('user'),
+        ];
     }
 }
