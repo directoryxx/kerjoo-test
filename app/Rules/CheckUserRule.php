@@ -38,6 +38,6 @@ class CheckUserRule implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'Pastikan data yang dikirimkan benar';
     }
 }
