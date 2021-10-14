@@ -14,4 +14,4 @@ use Illuminate\Http\Request;
 */
 
 
-Route::resource('permits', "PermitController")->only(['index', 'show']);
+Route::resource('permits', "PermitController")->only(['index', 'show','store']);

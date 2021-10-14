@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Permit\StorePermitRequest;
 use App\Http\Resources\PermitResource;
 use App\Permit;
 use App\Services\PermitService;
@@ -44,9 +45,10 @@ class PermitController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StorePermitRequest $request)
     {
-        //
+        $permit = $this->permitService->createPermit($request->only(['user_id','submission_date','reason']));
+        return new PermitResource($permit);
     }
 
     /**
