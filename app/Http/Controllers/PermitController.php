@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PermitResource;
 use App\Permit;
 use App\Services\PermitService;
 use Illuminate\Http\Request;
@@ -22,7 +23,9 @@ class PermitController extends Controller
      */
     public function index()
     {
-        
+        $permit = $this->permitService->getPermits();
+
+        return PermitResource::collection($permit);
     }
 
     /**
@@ -54,7 +57,9 @@ class PermitController extends Controller
      */
     public function show(Permit $permit)
     {
-        //
+        $permit = $this->permitService->getPermit($permit);
+
+        return new PermitResource($permit);
     }
 
     /**
