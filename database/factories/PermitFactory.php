@@ -2,12 +2,12 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Model;
+use App\Permit;
 use Faker\Generator as Faker;
 
-$factory->define(Model::class, function (Faker $faker) {
+$factory->define(Permit::class, function (Faker $faker) {
     return [
-        'submission_date' => $faker->dateTimeBetween('now', '+1 year'),
-        'reason' => $faker->realText(100),
+        'submission_date' => $faker->date,
+        'reason' => $faker->realText(rand(20,200)),
     ];
 });
