@@ -1,0 +1,1 @@
+php -n -dzend_extension=xdebug -dxdebug.mode=coverage ./vendor/bin/phpunit --coverage-html reports/

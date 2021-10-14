@@ -3,7 +3,10 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Str;
 
 class Handler extends ExceptionHandler
 {
@@ -50,6 +53,33 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof ValidationException) {
+            return response()->json([
+                'message' => "Data yang diberikan salah.",
+                'errors' => $exception->errors(),
+                'error' => collect($exception->errors())->first()[0],
+            ], $exception->status);
+        }
+
+        if ($exception instanceof ModelNotFoundException) {
+            $model = $exception->getModel();
+            $readableModelName = Str::title(str_replace('_', ' ', Str::snake(class_basename($model))));
+
+            if (method_exists($model, 'getReadableClassName')) {
+                $readableModelName = $model::getReadableClassName();
+            }
+
+            $error_message = 'Data ' . $readableModelName . ' tidak ditemukan';
+
+            return response()->json([
+                'model_ids' => $exception->getIds(),
+                'errors' => [
+                    '404' => [$error_message],
+                ],
+                'error' => $error_message
+            ], 400);
+        }
+
         return parent::render($request, $exception);
     }
 }
