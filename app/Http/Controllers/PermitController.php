@@ -6,7 +6,6 @@ use App\Http\Requests\Permit\StorePermitRequest;
 use App\Http\Resources\PermitResource;
 use App\Permit;
 use App\Services\PermitService;
-use Illuminate\Http\Request;
 
 class PermitController extends Controller
 {
