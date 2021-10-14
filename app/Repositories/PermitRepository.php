@@ -14,8 +14,12 @@ class PermitRepository
         $this->permit = $permit;
     }
 
-    public function getAll()
+    public function getAll($request)
     {
+        if (!empty($request) || $request["limit"] != "" || $request["limit"] != 0) {
+            return $this->permit->paginate($request["limit"]);
+        }
+
         return $this->permit->get();
     }
 

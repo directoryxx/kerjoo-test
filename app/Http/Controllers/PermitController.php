@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Permit\ListPermitRequest;
 use App\Http\Requests\Permit\StorePermitRequest;
 use App\Http\Resources\PermitResource;
 use App\Permit;
@@ -21,9 +22,9 @@ class PermitController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ListPermitRequest $request)
     {
-        $permit = $this->permitService->getPermits();
+        $permit = $this->permitService->getPermits($request->only(['page', 'limit']));
 
         return PermitResource::collection($permit);
     }

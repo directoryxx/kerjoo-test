@@ -10,8 +10,8 @@ class PermitService {
         $this->permitRepository = $permitRepository;
     }
 
-    public function getPermits() {
-        return $this->permitRepository->getAll();
+    public function getPermits($data) {
+        return $this->permitRepository->getAll($data);
     }
 
     public function getPermit($id) {
