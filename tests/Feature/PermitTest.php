@@ -16,10 +16,7 @@ class PermitTest extends TestCase
     {
         parent::setUp();
 
-        // seed the database
-        $this->artisan('db:seed');
-        // alternatively you can call
-        // $this->seed();
+        $this->seed();
     }
 
     /**
@@ -27,10 +24,86 @@ class PermitTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testGetAll()
     {
-        $response = $this->get('/');
+        $response = $this->get($this->url);
 
-        $response->assertStatus(200);
+        $response->assertStatus(200)->assertSee('data');
+    }
+
+    public function testWithPagination()
+    {
+        $response = $this->get($this->url."?limit=10&page=1");
+
+        $response->assertStatus(200)->assertSee('data');
+    }
+
+    public function testGetID()
+    {
+        $rand = rand(1, 10);
+        $response = $this->get($this->url.'/'.$rand);
+
+        $response->assertStatus(200)->assertSee("data");
+    }
+
+    public function testGetWrongID()
+    {
+        $id = 10000;
+        $response = $this->get($this->url.'/'.$id);
+        $response->assertStatus(400);
+    }
+
+    public function testCreatePermit()
+    {
+        $data = [
+            'user_id' => rand(1,10),
+            "submission_date" => $this->faker->date(),
+            "reason" => $this->faker->realText(rand(10,100)),
+        ];
+
+        $response = $this->post($this->url, $data);
+
+        $response->assertStatus(201)->assertSee("data");
+
+        $this->assertDatabaseHas('permits', $data);
+    }
+
+    public function testCreatePermitWrongUserID()
+    {
+        $data = [
+            'user_id' => "aaaa",
+            "submission_date" => $this->faker->date(),
+            "reason" => $this->faker->realText(rand(10,100)),
+        ];
+
+        $response = $this->post($this->url, $data);
+
+        $response->assertStatus(422)->assertSee("error");
+    }
+
+    public function testCreatePermitWrongSubmissionDate()
+    {
+        $data = [
+            'user_id' => rand(1,10),
+            "submission_date" => "aaa",
+            "reason" => $this->faker->realText(rand(10,100)),
+        ];
+
+        $response = $this->post($this->url, $data);
+
+        $response->assertStatus(422)->assertSee("error");
+    }
+
+    public function testCreatePermitEmptyReason()
+    {
+        $data = [
+            'user_id' => rand(1,10),
+            "submission_date" => $this->faker->date(),
+            // "reason" => $this->faker->realText(rand(10,100)),
+        ];
+
+        $response = $this->post($this->url, $data);
+
+        $response->assertStatus(422)->assertSee("error");
     }
 }
