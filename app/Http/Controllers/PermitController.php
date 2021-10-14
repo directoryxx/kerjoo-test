@@ -3,10 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Permit;
+use App\Services\PermitService;
 use Illuminate\Http\Request;
 
 class PermitController extends Controller
 {
+    protected $permitService;
+
+    public function __construct(PermitService $permitService)
+    {
+        $this->permitService = $permitService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,7 @@ class PermitController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
