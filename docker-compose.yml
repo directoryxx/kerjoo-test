@@ -1,0 +1,61 @@
+version: "3"
+services:
+  app_kerjoo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app_kerjoo
+    restart: unless-stopped
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - ./docker/php/app.ini:/usr/local/etc/php/conf.d/app.ini
+      - ./docker/php/php-fpm.conf:/usr/local/etc/php-fpm.conf
+      - ./docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+    networks:
+      - dev
+
+  #Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - dev
+
+
+  db:
+    image: mariadb:10.5-focal
+    container_name: db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdatakerjoo:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: kerjoo
+      MYSQL_ROOT_PASSWORD: passworddev2020
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    networks:
+      - dev
+
+
+
+networks:
+   dev:
+
+volumes:
+  dbdatakerjoo:
+    driver: local
